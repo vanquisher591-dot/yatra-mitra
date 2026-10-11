@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yatra Mitra - Premium Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: #1a222b; color: #fff; padding: 20px; }
+        .back-btn { color: #f4c095; text-decoration: none; margin-bottom: 20px; display: inline-block; font-weight: 600; }
+        .product-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .img-container { position: relative; width: 100%; height: 210px; overflow: hidden; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .content { padding: 20px; }
+        .price-tag { position: absolute; bottom: 15px; right: 15px; background: #C1532B; padding: 8px 15px; border-radius: 20px; font-weight: bold; z-index: 2; box-shadow: 0 4px 10px rgba(0,0,0,0.3); color: white; }
+        h2 { font-family: 'Playfair Display', serif; color: #f4c095; margin: 0 0 10px 0; font-size: 1.4rem; }
+        .review { font-size: 0.85rem; color: #ccc; font-style: italic; margin-bottom: 15px; padding-left: 10px; border-left: 3px solid #C1532B; }
+        label { font-size: 0.9rem; color: #f4c095; font-weight: 600; display: block; margin-top: 15px; margin-bottom: 5px; }
+        select, input[type="text"] { width: 100%; padding: 14px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 8px; box-sizing: border-box; font-size: 0.95rem; }
+        select option { background: #26323F; color: white; }
+        .btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #C1532B, #903015); color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 1.05rem; cursor: pointer; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <a href="/home.html" class="back-btn">← Back to Hub</a>
+    
+    <!-- 1. KEDARNATH -->
+    <div class="product-card">
+        <div class="img-container">
+            <img src="k.jpg" alt="Kedarnath">
+            <div class="price-tag">₹1,500 / trip</div>
+        </div>
+        <div class="content">
+            <h2>Kedarnath - The Shiva Ascent</h2>
+            <div class="review">"⭐⭐⭐⭐⭐ Exceptional rural stay and safety guides." - Priya M.</div>
+            <form action="/pass.html" method="GET">
+                <input type="hidden" name="destination" value="Kedarnath">
+                <input type="hidden" name="basePrice" value="1500">
+                <label>Select Guide:</label>
+                <select name="guide" required>
+                    <option value="0">Self-Guided - ₹0</option>
+                    <option value="800">Ramesh S. (SDRF Mountaineer) - +₹800</option>
+                    <option value="600">Amit P. (Senior Trek Leader) - +₹600</option>
+                    <option value="500">Kavita B. (History Expert) - +₹500</option>
+                </select>
+                <input type="text" name="discount" placeholder="Promo Code (Try YATRA10)">
+                <button type="submit" class="btn">Generate Gateway Pass</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. BADRINATH -->
+    <div class="product-card">
+        <div class="img-container">
+            <img src="b.jpg" alt="Badrinath">
+            <div class="price-tag">₹1,200 / trip</div>
+        </div>
+        <div class="content">
+            <h2>Badrinath - The Vishnu Realm</h2>
+            <div class="review">"⭐⭐⭐⭐⭐ Incredible smart maps and local guides." - Rahul K.</div>
+            <form action="/pass.html" method="GET">
+                <input type="hidden" name="destination" value="Badrinath">
+                <input type="hidden" name="basePrice" value="1200">
+                <label>Select Guide:</label>
+                <select name="guide" required>
+                    <option value="0">Self-Guided - ₹0</option>
+                    <option value="700">Vikram R. (Mana Local) - +₹700</option>
+                    <option value="550">Neha S. (Cultural Historian) - +₹550</option>
+                </select>
+                <input type="text" name="discount" placeholder="Promo Code">
+                <button type="submit" class="btn">Generate Gateway Pass</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. GANGOTRI -->
+    <div class="product-card">
+        <div class="img-container">
+            <img src="g.jpg" alt="Gangotri">
+            <div class="price-tag">₹1,400 / trip</div>
+        </div>
+        <div class="content">
+            <h2>Gangotri - Origin of Ganga</h2>
+            <div class="review">"⭐⭐⭐⭐⭐ Essential glacier trail navigators." - Sneha T.</div>
+            <form action="/pass.html" method="GET">
+                <input type="hidden" name="destination" value="Gangotri">
+                <input type="hidden" name="basePrice" value="1400">
+                <label>Select Guide:</label>
+                <select name="guide" required>
+                    <option value="0">Self-Guided - ₹0</option>
+                    <option value="900">Tenzing N. (Glacier Specialist) - +₹900</option>
+                    <option value="650">Anjali J. (Flora Expert) - +₹650</option>
+                </select>
+                <input type="text" name="discount" placeholder="Promo Code">
+                <button type="submit" class="btn">Generate Gateway Pass</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. YAMUNOTRI -->
+    <div class="product-card">
+        <div class="img-container">
+            <img src="ya.jpg" alt="Yamunotri">
+            <div class="price-tag">₹1,100 / trip</div>
+        </div>
+        <div class="content">
+            <h2>Yamunotri - Sacred Source</h2>
+            <div class="review">"⭐⭐⭐⭐⭐ Warm native hospitality." - Dev A.</div>
+            <form action="/pass.html" method="GET">
+                <input type="hidden" name="destination" value="Yamunotri">
+                <input type="hidden" name="basePrice" value="1100">
+                <label>Select Guide:</label>
+                <select name="guide" required>
+                    <option value="0">Self-Guided - ₹0</option>
+                    <option value="550">Gaurav H. (Coordinator) - +₹550</option>
+                </select>
+                <input type="text" name="discount" placeholder="Promo Code">
+                <button type="submit" class="btn">Generate Gateway Pass</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 5. VALLEY OF FLOWERS -->
+    <div class="product-card">
+        <div class="img-container">
+            <img src="v.jpg" alt="Valley of Flowers">
+            <div class="price-tag">₹1,800 / trip</div>
+        </div>
+        <div class="content">
+            <h2>Valley of Flowers Trek</h2>
+            <div class="review">"⭐⭐⭐⭐⭐ Stunning alpine blooms." - Elena R.</div>
+            <form action="/pass.html" method="GET">
+                <input type="hidden" name="destination" value="Valley of Flowers">
+                <input type="hidden" name="basePrice" value="1800">
+                <label>Select Guide:</label>
+                <select name="guide" required>
+                    <option value="0">Self-Guided - ₹0</option>
+                    <option value="850">Dr. Sharma (Botanist) - +₹850</option>
+                </select>
+                <input type="text" name="discount" placeholder="Promo Code">
+                <button type="submit" class="btn">Generate Gateway Pass</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 6. NANDA DEVI BASE CAMP -->
+    <div class="product-card">
+        <div class="img-container">
+            <img src="n.jpg" alt="Nanda Devi">
+            <div class="price-tag">₹2,500 / trip</div>
+        </div>
+        <div class="content">
+            <h2>Nanda Devi Base Camp</h2>
+            <div class="review">"⭐⭐⭐⭐⭐ Rigorous trek made safe." - Arjun B.</div>
+            <form action="/pass.html" method="GET">
+                <input type="hidden" name="destination" value="Nanda Devi Base Camp">
+                <input type="hidden" name="basePrice" value="2500">
+                <label>Select Guide:</label>
+                <select name="guide" required>
+                    <option value="0">Self-Guided - ₹0</option>
+                    <option value="1200">Col. Bisht (Altitude Specialist) - +₹1200</option>
+                </select>
+                <input type="text" name="discount" placeholder="Promo Code">
+                <button type="submit" class="btn">Generate Gateway Pass</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 7. AULI WINTER ESCAPADE -->
+    <div class="product-card">
+        <div class="img-container">
+            <img src="w.jpg" alt="Auli">
+            <div class="price-tag">₹1,600 / trip</div>
+        </div>
+        <div class="content">
+            <h2>Auli Winter Escapade</h2>
+            <div class="review">"⭐⭐⭐⭐⭐ Breathtaking skiing views." - Samira W.</div>
+            <form action="/pass.html" method="GET">
+                <input type="hidden" name="destination" value="Auli Winter Escapade">
+                <input type="hidden" name="basePrice" value="1600">
+                <label>Select Guide:</label>
+                <select name="guide" required>
+                    <option value="0">Self-Guided - ₹0</option>
+                    <option value="900">Aryan D. (Ski Instructor) - +₹900</option>
+                </select>
+                <input type="text" name="discount" placeholder="Promo Code">
+                <button type="submit" class="btn">Generate Gateway Pass</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
