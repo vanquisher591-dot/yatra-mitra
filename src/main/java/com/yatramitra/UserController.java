@@ -1,13 +1,12 @@
 package com.yatramitra;
 
 import jakarta.persistence.*;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import java.io.IOException;
 
 @Entity
 @Table(name = "app_user")
@@ -35,19 +34,20 @@ interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
 }
 
-@RestController
+@Controller
 public class UserController {
 
-    // Real browser redirect to your static home page
+    // Serves your main home page directly at the root URL
     @GetMapping("/")
-    public void redirectToHome(HttpServletResponse response) throws IOException {
-        response.sendRedirect("/index.html");
+    public String home() {
+        return "forward:/index.html";
     }
 
     @Autowired
     private UserRepository userRepository;
 
     @PostMapping("/api/register")
+    @ResponseBody
     @Transactional
     public ResponseEntity<String> register(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
         try {
@@ -66,6 +66,7 @@ public class UserController {
     }
 
     @PostMapping("/api/login")
+    @ResponseBody
     public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
         try {
             User user = userRepository.findByEmail(email);
@@ -82,6 +83,7 @@ public class UserController {
     }
 
     @GetMapping("/api/user-profile")
+    @ResponseBody
     public ResponseEntity<?> getUserProfile(@RequestParam String email) {
         try {
             User user = userRepository.findByEmail(email);
