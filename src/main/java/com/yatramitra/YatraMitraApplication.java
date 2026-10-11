@@ -1,0 +1,14 @@
+package com.yatramitra;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class YatraMitraApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(YatraMitraApplication.class, args);
+        System.out.println("===========================================");
+        System.out.println("YATRA MITRA SERVER RUNNING ON LOCALHOST:8080");
+        System.out.println("===========================================");
+    }
+}
