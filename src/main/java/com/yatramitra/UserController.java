@@ -34,12 +34,18 @@ interface UserRepository extends JpaRepository<User, Long> {
 }
 
 @RestController
-@RequestMapping("/api")
 public class UserController {
+
+    // Redirects the root URL (https://your-app.onrender.com/) to your static home page
+    @GetMapping("/")
+    public String redirectToHome() {
+        return "redirect:/index.html";
+    }
+
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/register")
+    @PostMapping("/api/register")
     @Transactional
     public ResponseEntity<String> register(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
         try {
@@ -57,7 +63,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
+    @PostMapping("/api/login")
     public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
         try {
             User user = userRepository.findByEmail(email);
@@ -73,7 +79,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user-profile")
+    @GetMapping("/api/user-profile")
     public ResponseEntity<?> getUserProfile(@RequestParam String email) {
         try {
             User user = userRepository.findByEmail(email);
