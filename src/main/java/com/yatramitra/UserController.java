@@ -1,11 +1,13 @@
 package com.yatramitra;
 
 import jakarta.persistence.*;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import java.io.IOException;
 
 @Entity
 @Table(name = "app_user")
@@ -36,10 +38,10 @@ interface UserRepository extends JpaRepository<User, Long> {
 @RestController
 public class UserController {
 
-    // Redirects the root URL (https://your-app.onrender.com/) to your static home page
+    // Real browser redirect to your static home page
     @GetMapping("/")
-    public String redirectToHome() {
-        return "redirect:/index.html";
+    public void redirectToHome(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/index.html");
     }
 
     @Autowired
