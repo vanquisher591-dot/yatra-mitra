@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yatra Mitra - Digital Shield Pass</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: #1a222b; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .pass-container { background: #FAF5EB; width: 100%; max-width: 380px; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.6); border: 1px solid rgba(244, 192, 149, 0.3); color: #26323F; }
+        
+        .pass-header { background: #26323F; padding: 25px 20px; text-align: center; color: #f4c095; border-bottom: 4px solid #C1532B; }
+        .pass-header h1 { font-family: 'Playfair Display', serif; margin: 0 0 5px 0; font-size: 1.6rem; letter-spacing: 1px; }
+        .pass-header p { margin: 0; font-size: 0.75rem; color: #aaa; letter-spacing: 2px; text-transform: uppercase; }
+        
+        .pass-body { padding: 25px; }
+        .section-row { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px dashed #d1c7b7; padding-bottom: 12px; }
+        .label { font-size: 0.7rem; color: #777; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+        .value { font-size: 1rem; font-weight: 700; color: #26323F; }
+        
+        .qr-box { background: #fff; padding: 15px; border-radius: 12px; text-align: center; margin: 20px 0; border: 1px solid #e0d5c1; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+        .qr-box img { width: 130px; height: 130px; }
+        
+        .total-banner { background: #26323F; color: #fff; padding: 15px 20px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+        .total-banner .price { font-size: 1.3rem; font-weight: bold; color: #f4c095; font-family: 'Playfair Display', serif; }
+        
+        .actions { margin-top: 20px; text-align: center; }
+        .home-btn { display: block; width: 100%; padding: 14px; background: #C1532B; color: white; text-decoration: none; border-radius: 8px; font-weight: 700; box-sizing: border-box; box-shadow: 0 4px 12px rgba(193, 83, 43, 0.4); }
+    </style>
+</head>
+<body>
+    <div class="pass-container">
+        <div class="pass-header">
+            <h1>Yatra Shield Pass</h1>
+            <p>ghumon befikra jab sath ho YatraMitra</p>
+        </div>
+        <div class="pass-body">
+            <div class="section-row">
+                <div>
+                    <div class="label">Yatri Name</div>
+                    <div class="value">Verified User</div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="label">Status</div>
+                    <div class="value" style="color: #107c41;">● Active Clearance</div>
+                </div>
+            </div>
+            
+            <div class="section-row">
+                <div>
+                    <div class="label">Selected Destination</div>
+                    <div class="value" id="destDisplay" style="color: #C1532B;">Loading...</div>
+                </div>
+            </div>
+
+            <div class="section-row" style="border: none;">
+                <div>
+                    <div class="label">Manifest & Guides</div>
+                    <div class="value" id="detailsDisplay" style="font-size: 0.85rem; line-height: 1.4; color: #555;">Loading...</div>
+                </div>
+            </div>
+
+            <div class="qr-box">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=YATRAMITRA-SECURE-GATEWAY-PASS-VERIFIED" alt="Gateway QR Code">
+                <div style="font-size: 0.65rem; color: #777; margin-top: 8px; letter-spacing: 1px; font-weight: bold;">SCAN AT DISTRICT GATEWAY KIOSK</div>
+            </div>
+
+            <div class="total-banner">
+                <div style="font-size: 0.85rem; letter-spacing: 1px;">TOTAL PAID</div>
+                <div class="price">₹<span id="totalDisplay">0</span></div>
+            </div>
+
+            <div class="actions">
+                <a href="/home.html" class="home-btn">Return to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const dest = urlParams.get('destination') || 'Himalayan Region';
+        const base = parseInt(urlParams.get('basePrice') || 1500);
+        const guideCost = parseInt(urlParams.get('guide') || 0);
+        const discountCode = urlParams.get('discount');
+        
+        let total = base + guideCost;
+        let details = `• Base Journey Comm.: ₹${base}`;
+        
+        if (guideCost > 0) {
+            details += `<br>• Certified Navigator Assigned: ₹${guideCost}`;
+        } else {
+            details += `<br>• Self-Guided Mode Selected`;
+        }
+
+        if (discountCode === 'YATRA10') {
+            total = total * 0.9;
+            details += `<br>• Promo Applied: 10% Off`;
+        }
+
+        document.getElementById('destDisplay').innerText = dest;
+        document.getElementById('detailsDisplay').innerHTML = details;
+        document.getElementById('totalDisplay').innerText = total.toLocaleString();
+    </script>
+</body>
+</html>

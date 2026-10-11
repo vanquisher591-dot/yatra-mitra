@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yatra Mitra - Live Weather</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: #1a222b; color: #fff; padding: 20px; }
+        .back-btn { color: #f4c095; text-decoration: none; margin-bottom: 20px; display: inline-block; font-weight: 600; }
+        h2 { font-family: 'Playfair Display', serif; color: #f4c095; margin-top: 0; font-size: 1.6rem; }
+        select { width: 100%; padding: 15px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 8px; margin-bottom: 20px; font-size: 1rem; }
+        select option { background: #26323F; color: white; padding: 10px; }
+        
+        .weather-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 30px 20px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.2); backdrop-filter: blur(10px); }
+        .temp { font-size: 4rem; font-weight: 700; color: #f4c095; margin: 15px 0; font-family: 'Playfair Display', serif; }
+        .condition { font-size: 1.2rem; margin-bottom: 20px; font-weight: 500; }
+        .alert { padding: 12px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; transition: 0.3s; }
+        
+        .alert-safe { background: rgba(76, 175, 80, 0.15); color: #4CAF50; border: 1px solid rgba(76, 175, 80, 0.3); }
+        .alert-warn { background: rgba(255, 152, 0, 0.15); color: #FF9800; border: 1px solid rgba(255, 152, 0, 0.3); }
+        .alert-danger { background: rgba(219, 52, 52, 0.15); color: #ff6b6b; border: 1px solid rgba(219, 52, 52, 0.3); }
+    </style>
+</head>
+<body>
+    <a href="/home.html" class="back-btn">← Back to Hub</a>
+    <h2>⛅ Live Weather Report</h2>
+    <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 20px;">Fetching real-time satellite data for Himalayan nodes.</p>
+    
+    <select id="weatherSelect" onchange="fetchRealWeather()">
+        <option value="" disabled selected>Select Destination...</option>
+        <option value="kedarnath">Kedarnath</option>
+        <option value="badrinath">Badrinath</option>
+        <option value="gangotri">Gangotri</option>
+        <option value="yamunotri">Yamunotri</option>
+        <option value="valley_of_flowers">Valley of Flowers</option>
+        <option value="nanda_devi">Nanda Devi Base Camp</option>
+        <option value="auli">Auli</option>
+    </select>
+
+    <div class="weather-card" id="weatherDisplay" style="display: none;">
+        <h3 id="wLoc" style="margin: 0; font-size: 1.3rem; letter-spacing: 1px; text-transform: uppercase;">Location</h3>
+        <div class="temp" id="wTemp">--°C</div>
+        <div class="condition" id="wCond">--</div>
+        <div class="alert" id="wAlert">No active alerts.</div>
+    </div>
+
+    <script>
+        // Expanded GPS Coordinates for accurate weather pulling
+        const locations = {
+            'kedarnath': { lat: 30.7346, lon: 79.0669, name: 'Kedarnath' },
+            'badrinath': { lat: 30.7433, lon: 79.4937, name: 'Badrinath' },
+            'gangotri': { lat: 30.9947, lon: 78.9398, name: 'Gangotri' },
+            'yamunotri': { lat: 31.0140, lon: 78.4600, name: 'Yamunotri' },
+            'valley_of_flowers': { lat: 30.7280, lon: 79.6053, name: 'Valley of Flowers' },
+            'nanda_devi': { lat: 30.3752, lon: 79.9708, name: 'Nanda Devi Base Camp' },
+            'auli': { lat: 30.5312, lon: 79.5668, name: 'Auli' }
+        };
+
+        // Translates API weather codes into readable text and emojis
+        function getWeatherDescription(code) {
+            if (code === 0) return '☀️ Clear Sky';
+            if (code >= 1 && code <= 3) return '⛅ Partly Cloudy';
+            if (code >= 45 && code <= 48) return '🌫️ Foggy & Low Visibility';
+            if (code >= 51 && code <= 67) return '🌧️ Raining';
+            if (code >= 71 && code <= 77) return '❄️ Snowfall';
+            if (code >= 80 && code <= 82) return '🌧️ Heavy Rain Showers';
+            if (code >= 85 && code <= 86) return '❄️ Heavy Snow Showers';
+            if (code >= 95) return '⛈️ Thunderstorm';
+            return '☁️ Cloudy';
+        }
+
+        async function fetchRealWeather() {
+            const locKey = document.getElementById('weatherSelect').value;
+            const loc = locations[locKey];
+            
+            const display = document.getElementById('weatherDisplay');
+            const wLoc = document.getElementById('wLoc');
+            const wTemp = document.getElementById('wTemp');
+            const wCond = document.getElementById('wCond');
+            const wAlert = document.getElementById('wAlert');
+
+            // Reset UI for loading state
+            display.style.display = 'block';
+            wLoc.innerText = loc.name;
+            wTemp.innerHTML = '<span style="font-size: 1.5rem; color: #888;">Fetching...</span>';
+            wCond.innerText = 'Connecting to satellite...';
+            wAlert.className = 'alert';
+            wAlert.innerText = 'Analyzing conditions...';
+            wAlert.style.border = 'none';
+            wAlert.style.background = 'transparent';
+
+            try {
+                // Call the free Open-Meteo API
+                const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current_weather=true`);
+                const data = await response.json();
+                
+                const temp = data.current_weather.temperature;
+                const weatherCode = data.current_weather.weathercode;
+                
+                // Update DOM with live data
+                wTemp.innerText = `${temp}°C`;
+                wCond.innerText = getWeatherDescription(weatherCode);
+                
+                // Dynamic Safety Alert Engine
+                if (weatherCode >= 71 || temp < 0) {
+                    wAlert.className = 'alert alert-danger';
+                    wAlert.innerText = '⚠️ ALERT: Freezing conditions & snow. Proceed with extreme caution. Choppers may be grounded.';
+                } else if (weatherCode >= 51 && weatherCode <= 67) {
+                    wAlert.className = 'alert alert-warn';
+                    wAlert.innerText = '⚠️ WARNING: Rain expected. Trekking paths will be slippery. Keep rain gear ready.';
+                } else if (weatherCode >= 45 && weatherCode <= 48) {
+                    wAlert.className = 'alert alert-warn';
+                    wAlert.innerText = '⚠️ WARNING: Dense fog. Low visibility on mountain passes.';
+                } else {
+                    wAlert.className = 'alert alert-safe';
+                    wAlert.innerText = '✅ Clear routes. Conditions are currently safe for travel.';
+                }
+
+            } catch (error) {
+                wTemp.innerText = "Error";
+                wCond.innerText = "Connection Failed";
+                wAlert.className = 'alert alert-danger';
+                wAlert.innerText = 'Unable to reach weather satellite. Please check your internet connection.';
+            }
+        }
+    </script>
+</body>
+</html>
